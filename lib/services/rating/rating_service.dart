@@ -1,0 +1,42 @@
+import 'package:firebase_database/firebase_database.dart';
+import 'package:pizza_quiz/models/rating.dart';
+import 'package:pizza_quiz/repository/preferences_repository.dart';
+
+class RatingService {
+  final databaseReference = FirebaseDatabase.instance.reference();
+  PreferenceRepository _preferenceRepository = PreferenceRepository();
+
+  void createData(
+      String quizname,
+      String identifier,
+      String feelings,
+      double clienteService,
+      double teamWork,
+      double confidence,
+      double innovation,
+      double attentionDetails) {
+    databaseReference.child(quizname).child(identifier).set({
+      'feelings': feelings,
+      'clienteService': clienteService,
+      'teamWork': teamWork,
+      'confidence': confidence,
+      'innovation': innovation,
+      'attentionDetails': attentionDetails,
+    });
+  }
+
+  readData() async {
+    String quizname = await _preferenceRepository.getData('data');
+    Map data;
+    final result = databaseReference.child(quizname).onValue;
+
+    await databaseReference
+        .child(quizname)
+        .once()
+        .then((value) => data = value.value);
+    var data2 = data.values.toList();
+    List<RatingData> list = data2.map((e) => RatingData.fromJson(e)).toList();
+  print(list);
+    return list;
+  }
+}
