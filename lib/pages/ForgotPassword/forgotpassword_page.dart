@@ -61,64 +61,74 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
       ),
       body: GetBuilder<ForgotPasswordController>(
         builder: (controller) {
-          return CustomPaint(
-            size: Size(wp(100), hp(100)),
-            painter: RegisterBackGround(animation: _controller.view),
-            child: ListView(
-              physics: ClampingScrollPhysics(),
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: hp(8)),
-                  child: Image.asset(
-                    './assets/examen.png',
-                    height: MediaQuery.of(context).size.height * 0.2,
-                  ),
-                ),
-                SizedBox(
-                  height: hp(12),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: wp(5)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      TextFieldWidget(
+          return ListView(
+            physics: AlwaysScrollableScrollPhysics(),
 
-                        editingController: emailctrl,
-                        textInputAction: TextInputAction.done,
-                        keyboardType: TextInputType.emailAddress,
-                        focus: emailFocus,
-                        onSubmitted: (value) =>
-                            FocusScope.of(context).unfocus(),
-                        isRegister: true,
-                        isPassword: false,
-                        hintText: 'Email',
-                        errorText: controller.email == loginEnum.INVALID
-                            ? 'Bad Email'
-                            : null,
-                        onChange: (value) => controller.isEmail(value),
+            children: [
+              CustomPaint(
+                size: Size(wp(100), hp(100)),
+                painter: RegisterBackGround(animation: _controller.view),
+                child: Container(
+                  height: MediaQuery.of(context).size.height*0.9,
+                  padding: EdgeInsets.only(
+                      left: wp(4), right: wp(4), top: hp(5)),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: hp(8)),
+                        child: Image.asset(
+                          './assets/examen.png',
+                          height: MediaQuery.of(context).size.height * 0.2,
+                        ),
                       ),
                       SizedBox(
                         height: hp(12),
                       ),
-                      RaisedButton(
-                        padding: EdgeInsets.all(wp(3)),
-                        splashColor: Colors.transparent,
-                        elevation: 5,
-                        color: kdarklogincolor,
-                        shape: StadiumBorder(),
-                        onPressed: () =>controller.sendEmail(emailctrl.text),
-                        child: Text(
-                          'Enviar',
-                          style: GoogleFonts.lato(
-                              color: kwhitecolor, fontSize: wp(6)),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: wp(5)),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            TextFieldWidget(
+
+                              editingController: emailctrl,
+                              textInputAction: TextInputAction.done,
+                              keyboardType: TextInputType.emailAddress,
+                              focus: emailFocus,
+                              onSubmitted: (value) =>
+                                  FocusScope.of(context).unfocus(),
+                              isRegister: true,
+                              isPassword: false,
+                              hintText: 'Email',
+                              errorText: controller.email == loginEnum.INVALID
+                                  ? 'Bad Email'
+                                  : null,
+                              onChange: (value) => controller.isEmail(value),
+                            ),
+                            SizedBox(
+                              height: hp(12),
+                            ),
+                            RaisedButton(
+                              padding: EdgeInsets.all(wp(3)),
+                              splashColor: Colors.transparent,
+                              elevation: 5,
+                              color: kdarklogincolor,
+                              shape: StadiumBorder(),
+                              onPressed: () =>controller.sendEmail(emailctrl.text),
+                              child: Text(
+                                'Enviar',
+                                style: GoogleFonts.lato(
+                                    color: kwhitecolor, fontSize: wp(6)),
+                              ),
+                            )
+                          ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           );
           return Stack(
             children: [

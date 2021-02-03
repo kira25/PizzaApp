@@ -14,16 +14,16 @@ import 'package:pizza_quiz/utils/login_background.dart';
 import 'package:pizza_quiz/widgets/TextFieldWidget.dart';
 
 class SignInForm extends StatefulWidget {
-  const SignInForm({
-    Key key,
-    @required this.wp,
-    @required this.hp,
-    @required TextEditingController quiznameController,
-    @required this.isKeyboardVisible,
-    @required TextEditingController emailController,
-    @required TextEditingController passwordController,
-    this.quizctrl
-  })  : _quiznameController = quiznameController,
+  const SignInForm(
+      {Key key,
+      @required this.wp,
+      @required this.hp,
+      @required TextEditingController quiznameController,
+      @required this.isKeyboardVisible,
+      @required TextEditingController emailController,
+      @required TextEditingController passwordController,
+      this.quizctrl})
+      : _quiznameController = quiznameController,
         _emailController = emailController,
         _passwordController = passwordController,
         super(key: key);
@@ -68,17 +68,17 @@ class _SignInFormState extends State<SignInForm>
         KeyboardVisibilityProvider.isKeyboardVisible(context);
     print(isKeyboardVisible);
     return GetBuilder<LoginController>(builder: (controller) {
-      return CustomPaint(
-        size: Size(widget.wp(100), widget.hp(100)),
-        painter:
-            LoginBackGround(isKeyboardVisible, animation: _controller.view),
-        child: ListView(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
+      return ListView(
+        physics: AlwaysScrollableScrollPhysics(),
+        children: [
+          CustomPaint(
+            size: Size(widget.wp(100), widget.hp(100)),
+            painter:
+                LoginBackGround(isKeyboardVisible, animation: _controller.view),
+            child: Container(
+              height: MediaQuery.of(context).size.height*0.96,
               padding: EdgeInsets.only(
-                  left: widget.wp(4),
-                  right: widget.wp(4),top: widget.hp(5)),
+                  left: widget.wp(4), right: widget.wp(4), top: widget.hp(5)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -181,7 +181,7 @@ class _SignInFormState extends State<SignInForm>
                     ),
                   ),
                   SizedBox(
-                    height: widget.hp(5),
+                    height: widget.hp(7),
                   ),
                   //FORM LOGIN
                   Container(
@@ -197,12 +197,12 @@ class _SignInFormState extends State<SignInForm>
                               FocusScope.of(context)
                                   .requestFocus(controller.passwordFocus);
                             },
-                            editingController: widget._emailController,
+                            editingController: controller.emailController,
                             onChange: (value) => controller.isEmail(value),
                             isPassword: false,
                             hintText: 'Email',
                             textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.text,
+                            keyboardType: TextInputType.emailAddress,
                             errorText: controller.email == loginEnum.INVALID
                                 ? 'Bad Email'
                                 : null,
@@ -214,7 +214,7 @@ class _SignInFormState extends State<SignInForm>
                           TextFieldWidget(
                             keyTesting: Key("Login Password"),
                             focus: controller.passwordFocus,
-                            editingController: widget._passwordController,
+                            editingController: controller.passwordController,
                             controller: controller,
                             errorText: controller.password == loginEnum.INVALID
                                 ? 'Bad password'
@@ -249,8 +249,8 @@ class _SignInFormState extends State<SignInForm>
                                               print(
                                                   widget._emailController.text);
                                               await controller.handleLogin(
-                                                  widget._emailController.text,
-                                                  widget._passwordController
+                                                  controller.emailController.text,
+                                                  controller.passwordController
                                                       .text);
                                             }
                                           : null,
@@ -297,14 +297,7 @@ class _SignInFormState extends State<SignInForm>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               GestureDetector(
-                                onTap: () {
-                                  widget._emailController.clear();
-                                  widget._passwordController.clear();
-                                  Get.off(RegisterPage(),
-                                      curve: Curves.easeIn,
-                                      transition: Transition.fadeIn,
-                                      duration: Duration(milliseconds: 500));
-                                },
+                                onTap: () => controller.goToRegister(),
                                 child: Text(
                                   'Sign up',
                                   style: GoogleFonts.lato(
@@ -314,14 +307,7 @@ class _SignInFormState extends State<SignInForm>
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () {
-                                  widget._emailController.clear();
-                                  widget._passwordController.clear();
-                                  Get.off(ForgotPasswordPage(),
-                                      curve: Curves.easeIn,
-                                      transition: Transition.fadeIn,
-                                      duration: Duration(milliseconds: 500));
-                                },
+                                onTap: () => controller.gotoForgotPassword(),
                                 child: Hero(
                                   tag: 'ForgotPassword',
                                   transitionOnUserGestures: true,
@@ -343,8 +329,8 @@ class _SignInFormState extends State<SignInForm>
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       );
       /*return Stack(
         children: [

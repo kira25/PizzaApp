@@ -25,7 +25,7 @@ class IntroPage extends StatelessWidget {
       child: new IntroSlider(
         slides: [
           Slide(
-            styleDescription: GoogleFonts.lato(fontSize: width * 0.05),
+            styleDescription: GoogleFonts.lato(fontSize: width * 0.04),
             styleTitle: GoogleFonts.lato(fontSize: width * 0.07,color: kdarklogincolor,fontWeight: FontWeight.bold),
             heightImage: height * 0.45,
             widthImage: width * 0.8,
@@ -36,7 +36,7 @@ class IntroPage extends StatelessWidget {
             backgroundColor: klightlogincolor,
           ),
           Slide(
-            styleDescription: GoogleFonts.lato(fontSize: width * 0.05),
+            styleDescription: GoogleFonts.lato(fontSize: width * 0.04),
             styleTitle: GoogleFonts.lato(fontSize: width * 0.07,color: kdarklogincolor,fontWeight: FontWeight.bold),
             heightImage: height * 0.45,
             widthImage: width * 0.8,
@@ -47,7 +47,7 @@ class IntroPage extends StatelessWidget {
             backgroundColor: klightlogincolor,
           ),
           Slide(
-            styleDescription: GoogleFonts.lato(fontSize: width * 0.05),
+            styleDescription: GoogleFonts.lato(fontSize: width * 0.04),
             styleTitle: GoogleFonts.lato(fontSize: width * 0.07,color: kdarklogincolor,fontWeight: FontWeight.bold),
             heightImage: height * 0.45,
             widthImage: width * 0.8,
@@ -57,7 +57,7 @@ class IntroPage extends StatelessWidget {
             backgroundColor: klightlogincolor,
           ),
           Slide(
-            styleDescription: GoogleFonts.lato(fontSize: width * 0.05),
+            styleDescription: GoogleFonts.lato(fontSize: width * 0.04),
             styleTitle: GoogleFonts.lato(fontSize: width * 0.07,color: kdarklogincolor,fontWeight: FontWeight.bold),
             heightImage: height * 0.45,
             widthImage: width * 0.8,

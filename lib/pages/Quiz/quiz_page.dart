@@ -129,75 +129,79 @@ class _QuizPageState extends State<QuizPage>
             //HOW DO YOU FEEL
             GetBuilder<QuizController>(
               builder: (controller) {
-                return Container(
-                  margin:
-                      EdgeInsets.symmetric(vertical: hp(4), horizontal: wp(3)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      _appBar(wp, hp),
-                      SizedBox(
-                        height: hp(2),
-                      ),
-                      _headerText(wp),
-                      SizedBox(
-                        height: hp(4),
-                      ),
-                      _title(wp(6)),
-                      SizedBox(
-                        height: hp(4),
-                      ),
-                      _flareActor(wp(80), hp(60)),
-                      SizedBox(
-                        height: hp(4),
-                      ),
-                      _slider(50, 340),
-                      SizedBox(
-                        height: hp(7),
-                      ),
-                      Container(
-                        width: wp(80),
-                        height: hp(8),
-                        margin: EdgeInsets.only(
-                            left: wp(7), right: wp(7), top: hp(2)),
-                        child: RaisedButton(
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                          ),
-                          color: kdarklogincolor,
-                          onPressed: () {
-                            if (slideState == SlideState.Bad) {
-                              emotion = 'Bad';
-                              print(emotion);
-                              controller.setEmotion(emotion);
-                              //controller_0To1.forward(from: 0.0);
-                              goToRating();
-                            } else if (slideState == SlideState.Ok) {
-                              emotion = 'Ok';
-                              controller.setEmotion(emotion);
-                              print(emotion);
-                              goToRating();
-                            } else if (slideState == SlideState.Good) {
-                              emotion = 'Good';
-                              controller.setEmotion(emotion);
-                              print(emotion);
-                              goToRating();
-                            } else {
-                              return null;
-                            }
-                          },
-                          child: Text(
-                            "Next",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: wp(5),
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                return SingleChildScrollView(
+                  child: Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.all(
+                          wp(3)),
+                    child: Column(
+
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        _appBar(wp, hp),
+                        SizedBox(
+                          height: hp(2),
+                        ),
+                        _headerText(wp),
+                        SizedBox(
+                          height: hp(3),
+                        ),
+                        _title(wp(6)),
+                        SizedBox(
+                          height: hp(4),
+                        ),
+                        _flareActor(wp(80), hp(60)),
+                        SizedBox(
+                          height: hp(4),
+                        ),
+                        _slider(50, 340),
+                        SizedBox(
+                          height: hp(7),
+                        ),
+                        Container(
+                          width: wp(80),
+                          height: hp(8),
+                          margin: EdgeInsets.only(
+                              left: wp(7), right: wp(7), top: hp(2)),
+                          child: RaisedButton(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            color: kdarklogincolor,
+                            onPressed: () {
+                              if (slideState == SlideState.Bad) {
+                                emotion = 'Bad';
+                                print(emotion);
+                                controller.setEmotion(emotion);
+                                //controller_0To1.forward(from: 0.0);
+                                goToRating();
+                              } else if (slideState == SlideState.Ok) {
+                                emotion = 'Ok';
+                                controller.setEmotion(emotion);
+                                print(emotion);
+                                goToRating();
+                              } else if (slideState == SlideState.Good) {
+                                emotion = 'Good';
+                                controller.setEmotion(emotion);
+                                print(emotion);
+                                goToRating();
+                              } else {
+                                return null;
+                              }
+                            },
+                            child: Text(
+                              "Next",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: wp(5),
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },
@@ -205,13 +209,16 @@ class _QuizPageState extends State<QuizPage>
             //RATING
             GetBuilder<QuizController>(
               builder: (controller) {
-                return Container(
-                  color: kwhitecolor,
-                  child: ListView(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(left: wp(5), top: hp(3)),
-                        child: Row(
+                return SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.all(
+                        wp(3)),
+                   width: double.infinity,
+                    height: hp(100),
+                    color: kwhitecolor,
+                    child: Column(
+                      children: <Widget>[
+                        Row(
                           children: [
                             IconButton(
                                 iconSize: wp(7),
@@ -219,38 +226,38 @@ class _QuizPageState extends State<QuizPage>
                                 onPressed: () => goToPrevious())
                           ],
                         ),
-                      ),
-                      valores('Client Service', hp(3), clientService),
-                      valores('Teamwork', hp(3), teamWork),
-                      valores('Confidence', hp(3), confidence),
-                      valores('Innovation', hp(3), innovation),
-                      valores('Attention Details', hp(3), attentionDetail),
-                      SizedBox(
-                        height: hp(6),
-                      ),
-                      new Container(
-                        width: wp(80),
-                        height: hp(8),
-                        margin: EdgeInsets.only(
-                            left: wp(7), right: wp(7), top: hp(2)),
-                        child: new RaisedButton(
-                          elevation: 10,
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0),
-                          ),
-                          color: kdarklogincolor,
-                          onPressed: () => controller.sendQuiz(widget.id),
-                          child: Text(
-                            "Send",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: wp(4),
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                        valores('Client Service', hp(3), clientService),
+                        valores('Teamwork', hp(3), teamWork),
+                        valores('Confidence', hp(3), confidence),
+                        valores('Innovation', hp(3), innovation),
+                        valores('Attention Details', hp(3), attentionDetail),
+                        SizedBox(
+                          height: hp(6),
+                        ),
+                        new Container(
+                          width: wp(80),
+                          height: hp(8),
+                          margin: EdgeInsets.only(
+                              left: wp(7), right: wp(7), top: hp(2)),
+                          child: new RaisedButton(
+                            elevation: 10,
+                            shape: new RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(30.0),
+                            ),
+                            color: kdarklogincolor,
+                            onPressed: () => controller.sendQuiz(widget.id),
+                            child: Text(
+                              "Send",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: wp(4),
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },
@@ -285,7 +292,6 @@ class _QuizPageState extends State<QuizPage>
             ),
             RatingBar.builder(
               initialRating: 3,
-
               unratedColor: Colors.grey[200],
               itemCount: 5,
               itemPadding: EdgeInsets.symmetric(horizontal: 10.0),
