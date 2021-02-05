@@ -33,7 +33,7 @@ class LoginBackGround extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     var sw = size.width;
-    var sh = keyboard== true ? size.height*0.6 : size.height;
+    var sh = keyboard== true ? size.height*0.7 : size.height;
     var paint = Paint();
 
     Path mainbackground = Path();

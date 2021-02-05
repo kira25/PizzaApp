@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:pizza_quiz/controllers/admin_controller.dart';
 import 'package:pizza_quiz/controllers/login_controller.dart';
+import 'package:pizza_quiz/controllers/quiz_controller.dart';
 
 class AdminBinding implements Bindings{
   @override
@@ -9,6 +10,7 @@ class AdminBinding implements Bindings{
 
     Get.lazyPut(() => AdminController());
     Get.lazyPut(() => LoginController());
+    Get.lazyPut(() => QuizController());
   }
 
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pizza_quiz/controllers/forgotpassword_controller.dart';
@@ -46,159 +47,136 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
     final Function hp = Screen(context).hp;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kdarklogincolor,
-        elevation: 0,
-        leading: IconButton(
-
-
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () => Get.off(LoginPage(),
-              curve: Curves.easeIn,
-              transition: Transition.fadeIn,
-              duration: Duration(milliseconds: 500)),
-        ),
-      ),
       body: GetBuilder<ForgotPasswordController>(
         builder: (controller) {
-          return ListView(
-            physics: AlwaysScrollableScrollPhysics(),
+          return KeyboardVisibilityProvider(
+            child: body(
+              controller: _controller,
+              wp: wp,
+              hp: hp,
+              emailctrl: emailctrl,
+              emailFocus: emailFocus,
+              forgotcontroller: controller,
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
 
+class body extends StatelessWidget {
+  const body({
+    Key key,
+    @required AnimationController controller,
+    @required this.wp,
+    @required this.hp,
+    @required this.emailctrl,
+    @required this.emailFocus,
+    this.forgotcontroller,
+  })  : _controller = controller,
+        super(key: key);
+
+  final AnimationController _controller;
+  final Function wp;
+  final Function hp;
+  final TextEditingController emailctrl;
+  final FocusNode emailFocus;
+  final ForgotPasswordController forgotcontroller;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isKeyboardVisible =
+        KeyboardVisibilityProvider.isKeyboardVisible(context);
+    return Stack(
+      children: [
+        SizedBox.expand(
+          child: CustomPaint(
+            painter: RegisterBackGround(animation: _controller.view),
+          ),
+        ),
+        Container(
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height * 0.9,
+          child: Column(
             children: [
-              CustomPaint(
-                size: Size(wp(100), hp(100)),
-                painter: RegisterBackGround(animation: _controller.view),
-                child: Container(
-                  height: MediaQuery.of(context).size.height*0.9,
-                  padding: EdgeInsets.only(
-                      left: wp(4), right: wp(4), top: hp(5)),
+              Expanded(
+                  child: Padding(
+                padding: EdgeInsets.only(left: wp(3), top: hp(3)),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        size: wp(7),
+                        color: kwhitecolor,
+                      ),
+                      onPressed: () => Get.off(LoginPage(),
+                          curve: Curves.easeIn,
+                          transition: Transition.fadeIn,
+                          duration: Duration(milliseconds: 500)),
+                    ),
+                  ],
+                ),
+              )),
+              Expanded(
+                flex: 2,
+                child: Padding(
+                  padding: EdgeInsets.only(top: hp(8)),
+                  child: Image.asset(
+                    './assets/examen.png',
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: hp(12),
+              ),
+              Expanded(
+                flex: isKeyboardVisible ? 4:  2,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: wp(9)),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: hp(8)),
-                        child: Image.asset(
-                          './assets/examen.png',
-                          height: MediaQuery.of(context).size.height * 0.2,
-                        ),
+                      TextFieldWidget(
+                        editingController: emailctrl,
+                        textInputAction: TextInputAction.done,
+                        keyboardType: TextInputType.emailAddress,
+                        focus: emailFocus,
+                        onSubmitted: () => FocusScope.of(context).unfocus(),
+                        isRegister: true,
+                        isPassword: false,
+                        hintText: 'Email',
+                        errorText: forgotcontroller.email == loginEnum.INVALID
+                            ? 'Bad Email'
+                            : null,
+                        onChange: (value) => forgotcontroller.isEmail(value),
                       ),
                       SizedBox(
                         height: hp(12),
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: wp(5)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            TextFieldWidget(
-
-                              editingController: emailctrl,
-                              textInputAction: TextInputAction.done,
-                              keyboardType: TextInputType.emailAddress,
-                              focus: emailFocus,
-                              onSubmitted: (value) =>
-                                  FocusScope.of(context).unfocus(),
-                              isRegister: true,
-                              isPassword: false,
-                              hintText: 'Email',
-                              errorText: controller.email == loginEnum.INVALID
-                                  ? 'Bad Email'
-                                  : null,
-                              onChange: (value) => controller.isEmail(value),
-                            ),
-                            SizedBox(
-                              height: hp(12),
-                            ),
-                            RaisedButton(
-                              padding: EdgeInsets.all(wp(3)),
-                              splashColor: Colors.transparent,
-                              elevation: 5,
-                              color: kdarklogincolor,
-                              shape: StadiumBorder(),
-                              onPressed: () =>controller.sendEmail(emailctrl.text),
-                              child: Text(
-                                'Enviar',
-                                style: GoogleFonts.lato(
-                                    color: kwhitecolor, fontSize: wp(6)),
-                              ),
-                            )
-                          ],
+                      RaisedButton(
+                        padding: EdgeInsets.all(wp(3)),
+                        splashColor: Colors.transparent,
+                        elevation: 5,
+                        color: kdarklogincolor,
+                        shape: StadiumBorder(),
+                        onPressed: () =>
+                            forgotcontroller.sendEmail(emailctrl.text),
+                        child: Text(
+                          'Enviar',
+                          style: GoogleFonts.lato(
+                              color: kwhitecolor, fontSize: wp(5)),
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
               ),
             ],
-          );
-          return Stack(
-            children: [
-              SizedBox.expand(
-                child: CustomPaint(
-                  painter: RegisterBackGround(animation: _controller.view),
-                ),
-              ),
-              SizedBox.expand(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: wp(4),
-                    vertical: hp(2),
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: hp(8)),
-                          child: Image.asset(
-                            './assets/examen.png',
-                            height: MediaQuery.of(context).size.height * 0.3,
-                          ),
-                        ),
-                        SizedBox(
-                          height: hp(12),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: wp(5)),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              TextFieldWidget(
-                                textInputAction: TextInputAction.done,
-                                keyboardType: TextInputType.emailAddress,
-                                focus: emailFocus,
-                                onSubmitted: (value) =>
-                                    FocusScope.of(context).unfocus(),
-                                isRegister: true,
-                                isPassword: false,
-                                hintText: 'Enter email',
-                              ),
-                              SizedBox(
-                                height: hp(12),
-                              ),
-                              RaisedButton(
-                                padding: EdgeInsets.all(wp(3)),
-                                splashColor: Colors.transparent,
-                                elevation: 5,
-                                color: kdarklogincolor,
-                                shape: StadiumBorder(),
-                                onPressed: () {},
-                                child: Text(
-                                  'Enviar',
-                                  style: GoogleFonts.lato(
-                                      color: kwhitecolor, fontSize: wp(6)),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              )
-            ],
-          );
-        },
-      ),
+          ),
+        ),
+      ],
     );
   }
 }

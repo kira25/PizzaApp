@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pizza_quiz/controllers/admin_controller.dart';
 import 'package:pizza_quiz/controllers/login_controller.dart';
+import 'package:pizza_quiz/controllers/quiz_controller.dart';
 import 'package:pizza_quiz/models/quiztest.dart';
 import 'package:pizza_quiz/models/rating.dart';
 import 'package:pizza_quiz/pages/Login/login_page.dart';
@@ -20,6 +21,7 @@ class AdminPage extends StatefulWidget {
 class _AdminPageState extends State<AdminPage> with TickerProviderStateMixin {
   final loginctrl = Get.put(LoginController());
   final admin = Get.put(AdminController());
+  final quizctrl = Get.put(QuizController());
 
   @override
   Widget build(BuildContext context) {

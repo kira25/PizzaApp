@@ -6,7 +6,10 @@ class SplashBinding implements Bindings{
   void dependencies() {
     // TODO: implement dependencies
     Get.lazyPut(() => SplashController());
+
   }
+
+
 
 
 }

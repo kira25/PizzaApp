@@ -6,17 +6,29 @@ import 'package:intro_slider/slide_object.dart';
 import 'package:pizza_quiz/pages/Login/login_page.dart';
 import 'package:pizza_quiz/utils/colors_fonts.dart';
 
-class IntroPage extends StatelessWidget {
+class IntroPage extends StatefulWidget {
 
 
 
 
   @override
-  Widget build(BuildContext context) {
+  _IntroPageState createState() => _IntroPageState();
+}
+
+class _IntroPageState extends State<IntroPage> {
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
     precacheImage(AssetImage('./assets/pick_quizname.PNG'), context);
     precacheImage(AssetImage('./assets/create_account.PNG'), context);
     precacheImage(AssetImage('./assets/quiz_time.png'), context);
     precacheImage(AssetImage('./assets/quiz_results.png'), context);
+  }
+  @override
+  Widget build(BuildContext context) {
+
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Container(

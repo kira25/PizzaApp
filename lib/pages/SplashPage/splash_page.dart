@@ -3,12 +3,29 @@ import 'package:get/get.dart';
 import 'package:pizza_quiz/controllers/splash_controller.dart';
 import 'package:pizza_quiz/utils/colors_fonts.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
+
+
+
+
+  @override
+  _SplashPageState createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
   final c = Get.put(SplashController());
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    precacheImage(AssetImage('./assets/examen.png'), context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kdarklogincolor,
+      backgroundColor: klightlogincolor,
       body: Center(
         child: Container(
             width: MediaQuery.of(context).size.width * 0.6,

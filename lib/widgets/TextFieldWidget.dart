@@ -33,10 +33,9 @@ class TextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-
+    return TextField(
+    onEditingComplete: onSubmitted,
       key:  keyTesting,
-      onFieldSubmitted: onSubmitted ,
       focusNode: focus,
       controller: editingController,
       obscureText: isPassword ? controller.isVisible : false,

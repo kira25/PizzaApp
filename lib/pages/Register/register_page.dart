@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pizza_quiz/controllers/login_controller.dart';
@@ -51,159 +52,195 @@ class _RegisterPageState extends State<RegisterPage>
   Widget build(BuildContext context) {
     final Function wp = Screen(context).wp;
     final Function hp = Screen(context).hp;
-    return Scaffold(
-      body: GetBuilder<RegisterController>(builder: (controller) {
-        return ListView(
-              physics: AlwaysScrollableScrollPhysics(),
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
 
-              child: CustomPaint(
-                size: Size(wp(100), hp(100)),
-                painter: RegisterBackGround(animation: _controller.view),
-                child:  Container(
-                  padding: EdgeInsets.only(
-                      left: wp(4),
-                      right: wp(4),top: hp(5)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(left: wp(5), top: hp(10)),
-                          child: Text(
-                            'Create\nAccount',
-                            style: GoogleFonts.lato(
-                                fontSize: wp(10), color: kwhitecolor),
-                          ),
+    return Scaffold(
+      body: KeyboardVisibilityProvider(
+        child: body(
+            wp: wp,
+            hp: hp,
+            controller: _controller,
+            emailctrl: _emailctrl,
+            passctrl: _passctrl,
+            loginctrl: loginctrl),
+      ),
+    );
+  }
+}
+
+class body extends StatelessWidget {
+  const body({
+    Key key,
+    @required this.wp,
+    @required this.hp,
+    @required AnimationController controller,
+    @required TextEditingController emailctrl,
+    @required TextEditingController passctrl,
+    @required this.loginctrl,
+  })  : _controller = controller,
+        _emailctrl = emailctrl,
+        _passctrl = passctrl,
+        super(key: key);
+
+  final Function wp;
+  final Function hp;
+  final AnimationController _controller;
+  final TextEditingController _emailctrl;
+  final TextEditingController _passctrl;
+  final LoginController loginctrl;
+
+  @override
+  Widget build(BuildContext context) {
+    final bool isKeyboardVisible =
+        KeyboardVisibilityProvider.isKeyboardVisible(context);
+    return GetBuilder<RegisterController>(builder: (controller) {
+      return Stack(
+        children: [
+          SizedBox.expand(
+            child: CustomPaint(
+              painter: RegisterBackGround(animation: _controller.view),
+            ),
+          ),
+          SingleChildScrollView(
+            child: Container(
+              height: hp(100),
+              width: double.infinity,
+              padding: EdgeInsets.only(top: hp(5)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Visibility(
+                    child: Expanded(
+
+                      child: Padding(
+                        padding: EdgeInsets.only(left: wp(8), top: isKeyboardVisible ? hp(6): hp(10)),
+                        child: Text(
+                          'Create\nAccount',
+                          style: GoogleFonts.lato(
+                              fontSize: wp(10), color: kwhitecolor),
                         ),
                       ),
-
-                      Expanded(
-                        flex: 2,
-                        child: ListView(
-                          padding: EdgeInsets.symmetric(horizontal: wp(5)),
-                          physics: BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          children: [
-                            TextFieldWidget(
-                              focus: controller.emailFocus,
-                              onSubmitted: (value) {
-                                FocusScope.of(context).unfocus();
-                                FocusScope.of(context)
-                                    .requestFocus(controller.passwordFocus);
-                              },
-                              isRegister: true,
-                              hintText: 'Email',
-                              editingController: _emailctrl,
-                              keyboardType: TextInputType.text,
-                              isPassword: false,
-                              textInputAction: TextInputAction.next,
-                              errorText:
-                              controller.validEmail == registerEnum.INVALID
-                                  ? 'Bad email'
-                                  : null,
-                              controller: controller,
-                              onChange: (value) => controller.isEmail(value),
-                            ),
-                            SizedBox(
-                              height: hp(3),
-                            ),
-                            TextFieldWidget(
-                              focus: controller.passwordFocus,
-                              isRegister: true,
-                              hintText: 'Password',
-                              editingController: _passctrl,
-                              keyboardType: TextInputType.visiblePassword,
-                              isPassword: true,
-                              textInputAction: TextInputAction.done,
-                              errorText:
-                              controller.validPass == registerEnum.INVALID
-                                  ? 'Bad password'
-                                  : null,
-                              controller: controller,
-                              onChange: (value) => controller.isPassword(value),
-                            ),
-                            SizedBox(
-                              height: hp(8),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Sign up',
-                                  style: GoogleFonts.lato(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: wp(8),
-                                      color: kwhitecolor),
-                                ),
-                                GestureDetector(
-                                  onTap: controller.validEmail ==
-                                      registerEnum.VALID &&
-                                      controller.validPass ==
-                                          registerEnum.VALID
-                                      ? () async {
-                                    final user =
-                                    await controller.handleRegister(
-                                        _emailctrl.text.trim(),
-                                        _passctrl.text.trim());
-                                    if (user != null) {
-                                      await loginctrl.handleLogin(
-                                          _emailctrl.text.trim(),
-                                          _passctrl.text.trim());
-                                    }
-                                  }
-                                      : null,
-                                  child: InnerShadow(
-                                    offset: const Offset(5, 5),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: kdarklogincolor,
-                                      ),
-                                      child: CircleAvatar(
-                                        backgroundColor: kdarklogincolor,
-                                        radius: 35,
-                                        child: Icon(
-                                          Icons.arrow_forward_ios,
-                                          color: Colors.white,
-                                        ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: isKeyboardVisible ? 3: 2,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: wp(8)),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextFieldWidget(
+                            focus: controller.emailFocus,
+                            onSubmitted: () {
+                              FocusScope.of(context).unfocus();
+                            },
+                            isRegister: true,
+                            hintText: 'Email',
+                            editingController: _emailctrl,
+                            keyboardType: TextInputType.emailAddress,
+                            isPassword: false,
+                            textInputAction: TextInputAction.done,
+                            errorText:
+                                controller.validEmail == registerEnum.INVALID
+                                    ? 'Bad email'
+                                    : null,
+                            controller: controller,
+                            onChange: (value) => controller.isEmail(value),
+                          ),
+                          SizedBox(
+                            height: hp(3),
+                          ),
+                          TextFieldWidget(
+                            focus: controller.passwordFocus,
+                            isRegister: true,
+                            hintText: 'Password',
+                            editingController: _passctrl,
+                            keyboardType: TextInputType.visiblePassword,
+                            isPassword: true,
+                            textInputAction: TextInputAction.done,
+                            errorText:
+                                controller.validPass == registerEnum.INVALID
+                                    ? 'Bad password'
+                                    : null,
+                            controller: controller,
+                            onChange: (value) => controller.isPassword(value),
+                          ),
+                          SizedBox(
+                            height: hp(8),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Sign up',
+                                style: GoogleFonts.lato(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: wp(8),
+                                    color: kwhitecolor),
+                              ),
+                              GestureDetector(
+                                onTap: controller.validEmail ==
+                                            registerEnum.VALID &&
+                                        controller.validPass ==
+                                            registerEnum.VALID
+                                    ? () async {
+                                        final user =
+                                            await controller.handleRegister(
+                                                _emailctrl.text.trim(),
+                                                _passctrl.text.trim());
+                                        if (user != null) {
+                                          await loginctrl.handleLogin(
+                                              _emailctrl.text.trim(),
+                                              _passctrl.text.trim());
+                                        }
+                                      }
+                                    : null,
+                                child: InnerShadow(
+                                  offset: const Offset(5, 5),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: kdarklogincolor,
+                                    ),
+                                    child: CircleAvatar(
+                                      backgroundColor: kdarklogincolor,
+                                      radius: 35,
+                                      child: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color: Colors.white,
                                       ),
                                     ),
                                   ),
-                                )
-                              ],
+                                ),
+                              )
+                            ],
+                          ),
+                          SizedBox(
+                            height: hp(8),
+                          ),
+                          GestureDetector(
+                            onTap: () => Get.off(LoginPage(),
+                                curve: Curves.easeIn,
+                                transition: Transition.fadeIn,
+                                duration: Duration(milliseconds: 500)),
+                            child: Text(
+                              'Sign in',
+                              style: GoogleFonts.lato(
+                                  color: kwhitecolor,
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: wp(5)),
                             ),
-                            SizedBox(
-                              height: hp(8),
-                            ),
-                            GestureDetector(
-                              onTap: () => Get.off(LoginPage(),
-                                  curve: Curves.easeIn,
-                                  transition: Transition.fadeIn,
-                                  duration: Duration(milliseconds: 500)),
-                              child: Text(
-                                'Sign in',
-                                style: GoogleFonts.lato(
-                                    color: kwhitecolor,
-                                    decoration: TextDecoration.underline,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: wp(5)),
-                              ),
-                            )
-                          ],
-                        ),
+                          )
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
-
-          ],
-        );
-      }),
-    );
+          )
+        ],
+      );
+    });
   }
 }

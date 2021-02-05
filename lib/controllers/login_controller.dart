@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pizza_quiz/controllers/quiz_controller.dart';
 import 'package:pizza_quiz/pages/Admin/admin_page.dart';
 import 'package:pizza_quiz/pages/ForgotPassword/forgotpassword_page.dart';
 import 'package:pizza_quiz/pages/Quiz/quiz_page.dart';
@@ -19,10 +20,10 @@ class LoginController extends GetxController {
   var loadinguser = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  final quizctrl = Get.put(QuizController());
 
   FocusNode emailFocus;
   FocusNode passwordFocus;
-
 
   AuthService _authService = AuthService();
   PreferenceRepository _preferenceRepository = PreferenceRepository();
@@ -49,26 +50,31 @@ class LoginController extends GetxController {
   }
 
   Future<void> signInAnonymously() async {
-    try {
-      emailController.clear();
-      passwordController.clear();
-      email = loginEnum.UNDEFINED;
-      password = loginEnum.UNDEFINED;
-      Get.defaultDialog(
-          title: 'Accediendo...', content: CircularProgressIndicator());
-      User user = await _authService.signInAnonymus();
-      print(user);
-      Get.back();
-
-      Get.to(QuizPage(
-        id: user.uid,
-      ));
-    } catch (e) {
-      Get.back();
-      Get.defaultDialog(
-          title: 'Fail access',
-          content: Center(child: Text('Something goes wrong')));
+    if (quizctrl.quizname.isNotEmpty) {
+      try {
+        emailController.clear();
+        passwordController.clear();
+        email = loginEnum.UNDEFINED;
+        password = loginEnum.UNDEFINED;
+        Get.defaultDialog(
+            title: 'Accediendo...', content: CircularProgressIndicator());
+        User user = await _authService.signInAnonymus();
+        print(user);
+        Get.back();
+        _preferenceRepository.setData("user", user.uid);
+        Get.to(QuizPage(
+          id: user.uid,
+        ));
+      } catch (e) {
+        Get.back();
+        Get.defaultDialog(
+            title: 'Fail access',
+            content: Center(child: Text('Something goes wrong')));
+      }
+    } else {
+      Get.defaultDialog(content: Text('Quizname is empty'));
     }
+
     update();
   }
 
@@ -99,7 +105,7 @@ class LoginController extends GetxController {
     _preferenceRepository.clearUser();
   }
 
-  void gotoForgotPassword(){
+  void gotoForgotPassword() {
     emailController.clear();
     passwordController.clear();
     email = loginEnum.UNDEFINED;
@@ -111,8 +117,7 @@ class LoginController extends GetxController {
     update();
   }
 
-
-  void goToRegister(){
+  void goToRegister() {
     emailController.clear();
     passwordController.clear();
     email = loginEnum.UNDEFINED;
@@ -123,47 +128,53 @@ class LoginController extends GetxController {
         duration: Duration(milliseconds: 500));
 
     update();
-
   }
 
   handleLogin(String username, String loginpassword) async {
-    try {
-      emailController.clear();
-      passwordController.clear();
-      email = loginEnum.UNDEFINED;
-      password = loginEnum.UNDEFINED;
+    if(quizctrl.quizname.isNotEmpty){
+      try {
 
-      Get.defaultDialog(radius: 20,
 
-          title: 'Verificando...',
-          content: CircularProgressIndicator());
-      print('loading : $loading');
-      User user =
-          await _authService.signInWithEmailAndPassword(username, loginpassword);
+        Get.defaultDialog(
+            radius: 20,
+            title: 'Verificando...',
+            content: CircularProgressIndicator());
+        print('loading : $loading');
+        User user = await _authService.signInWithEmailAndPassword(
+            username, loginpassword);
 
-      if (user != null) {
-        _preferenceRepository.setData("user", user.email);
-        if (user.email.contains("@admin.com")) {
-          // push new authentication event
+        if (user != null) {
+          emailController.clear();
+          passwordController.clear();
+          email = loginEnum.UNDEFINED;
+          password = loginEnum.UNDEFINED;
+          _preferenceRepository.setData("user", user.email);
+          if (user.email.contains("@admin.com")) {
+            // push new authentication event
 
-          Get.to(AdminPage());
+            Get.to(AdminPage());
 
-          print('Login :No data in Admin');
+            print('Login :No data in Admin');
+          } else {
+            // push new authentication event
+
+            Get.to(QuizPage(
+              id: user.uid,
+            ));
+          }
         } else {
-          // push new authentication event
-
-          Get.to(QuizPage(
-            id: user.uid,
-          ));
+          Get.back();
+          Get.snackbar('Bad credentials', '',
+              snackPosition: SnackPosition.BOTTOM);
         }
-      } else {
-        Get.back();
-        Get.snackbar('Bad credentials', '',
-            snackPosition: SnackPosition.BOTTOM);
+      } catch (e) {
+        Get.snackbar(e.toString(), '', snackPosition: SnackPosition.BOTTOM);
       }
-    } catch (e) {
-      Get.snackbar(e.toString(), '', snackPosition: SnackPosition.BOTTOM);
+    }else{
+      Get.snackbar('Need to set a Quizname', '',
+          snackPosition: SnackPosition.BOTTOM);
     }
+
     update();
   }
 }

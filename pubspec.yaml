@@ -53,6 +53,16 @@ dev_dependencies:
     sdk: flutter
   test: ^1.9.4
   integration_test: ^1.0.1
+  flutter_native_splash: ^0.2.9
+
+flutter_native_splash:
+  color: "#ffad3e"
+  image: assets/examen.png
+  android_fullscreen: true
+
+
+
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
