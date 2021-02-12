@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:pizza_quiz/controllers/quiz_controller.dart';
 import 'package:pizza_quiz/pages/Admin/admin_page.dart';
 import 'package:pizza_quiz/pages/ForgotPassword/forgotpassword_page.dart';
@@ -8,6 +9,7 @@ import 'package:pizza_quiz/pages/Quiz/quiz_page.dart';
 import 'package:pizza_quiz/pages/Register/register_page.dart';
 import 'package:pizza_quiz/repository/preferences_repository.dart';
 import 'package:pizza_quiz/services/auth/auth_service.dart';
+import 'package:pizza_quiz/utils/colors_fonts.dart';
 
 enum loginEnum { UNDEFINED, VALID, INVALID }
 enum auth { BAD, ADMIN, USER }
@@ -68,8 +70,13 @@ class LoginController extends GetxController {
       } catch (e) {
         Get.back();
         Get.defaultDialog(
+            backgroundColor: kaccentcolor,
+            titleStyle: GoogleFonts.lato(color: kwhitecolor,fontWeight: FontWeight.bold),
             title: 'Fail access',
-            content: Center(child: Text('Something goes wrong')));
+            content: Text(
+              'Check your connection',
+              style: GoogleFonts.lato(color: kwhitecolor),
+            ));
       }
     } else {
       Get.defaultDialog(content: Text('Quizname is empty'));
@@ -131,10 +138,8 @@ class LoginController extends GetxController {
   }
 
   handleLogin(String username, String loginpassword) async {
-    if(quizctrl.quizname.isNotEmpty){
+    if (quizctrl.quizname.isNotEmpty) {
       try {
-
-
         Get.defaultDialog(
             radius: 20,
             title: 'Verificando...',
@@ -170,7 +175,7 @@ class LoginController extends GetxController {
       } catch (e) {
         Get.snackbar(e.toString(), '', snackPosition: SnackPosition.BOTTOM);
       }
-    }else{
+    } else {
       Get.snackbar('Need to set a Quizname', '',
           snackPosition: SnackPosition.BOTTOM);
     }

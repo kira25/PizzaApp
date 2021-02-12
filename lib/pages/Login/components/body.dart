@@ -72,7 +72,6 @@ class _SignInFormState extends State<SignInForm>
         children: [
           SizedBox.expand(
             child: CustomPaint(
-              size: Size(widget.wp(100), widget.hp(100)),
               painter: LoginBackGround(isKeyboardVisible,
                   animation: _controller.view),
             ),
@@ -91,6 +90,7 @@ class _SignInFormState extends State<SignInForm>
                     children: [
                       Wrap(
                         spacing: widget.wp(2),
+                        runSpacing: widget.wp(2),
                         direction: Axis.vertical,
                         children: [
                           CircleAvatar(
@@ -172,7 +172,7 @@ class _SignInFormState extends State<SignInForm>
                   flex: 1,
                   child: Visibility(
                     visible: !isKeyboardVisible,
-                    child: Padding(
+                    child: Container(
                       padding: EdgeInsets.only(left: widget.wp(15)),
                       child: Text(
                         'Quiz of\nfeeling',
@@ -183,11 +183,11 @@ class _SignInFormState extends State<SignInForm>
                   ),
                 ),
                 SizedBox(
-                  height: widget.hp(3),
+                  height: widget.hp(6),
                 ),
                 //FORM LOGIN
                 Expanded(
-                  flex: isKeyboardVisible ? 6: 4,
+                  flex: isKeyboardVisible ? 6 : 4,
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: widget.wp(5)),
                     child: Column(

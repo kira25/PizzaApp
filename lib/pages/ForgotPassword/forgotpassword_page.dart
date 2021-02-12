@@ -50,7 +50,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
       body: GetBuilder<ForgotPasswordController>(
         builder: (controller) {
           return KeyboardVisibilityProvider(
-            child: body(
+            child: Body(
               controller: _controller,
               wp: wp,
               hp: hp,
@@ -65,8 +65,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
   }
 }
 
-class body extends StatelessWidget {
-  const body({
+class Body extends StatelessWidget {
+  const Body({
     Key key,
     @required AnimationController controller,
     @required this.wp,
@@ -119,12 +119,15 @@ class body extends StatelessWidget {
                   ],
                 ),
               )),
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: EdgeInsets.only(top: hp(8)),
-                  child: Image.asset(
-                    './assets/examen.png',
+              Visibility(
+                visible: !isKeyboardVisible,
+                child: Expanded(
+                  flex: 2,
+                  child: Padding(
+                    padding: EdgeInsets.only(top: hp(8)),
+                    child: Image.asset(
+                      './assets/examen.png',
+                    ),
                   ),
                 ),
               ),

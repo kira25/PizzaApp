@@ -71,6 +71,7 @@ class RegisterController extends GetxController {
       validEmail = registerEnum.VALID;
     }
     print(validEmail);
+    print(input);
     update();
   }
 

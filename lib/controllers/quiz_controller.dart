@@ -5,9 +5,15 @@ import 'package:pizza_quiz/pages/Login/login_page.dart';
 import 'package:pizza_quiz/repository/preferences_repository.dart';
 import 'package:pizza_quiz/services/auth/auth_service.dart';
 import 'package:pizza_quiz/services/rating/rating_service.dart';
+import 'package:pizza_quiz/utils/flareController.dart';
+
+enum SlideState { Bad, Ok, Good }
 
 class QuizController extends GetxController {
   var quizname = "";
+
+  double dragPercent = 0.0;
+  FlareRateController flareRateController;
 
   String emotion;
 
@@ -23,11 +29,43 @@ class QuizController extends GetxController {
 
   FocusNode quizFocus;
 
+  SlideState slideState = SlideState.Bad;
 
+  AnimationController animationController;
 
   PreferenceRepository _preferenceRepository = PreferenceRepository();
   RatingService _ratingService = RatingService();
   AuthService _authService = AuthService();
+
+  void onDragStart(BuildContext context, DragStartDetails details) {
+    RenderBox box = context.findRenderObject();
+    Offset localOffset = box.localToGlobal(details.localPosition);
+    updateDragPosition(localOffset);
+    update();
+  }
+
+  void onDragUpdate(BuildContext context, DragUpdateDetails details) {
+    RenderBox box = context.findRenderObject();
+    Offset localOffset = box.localToGlobal(details.localPosition );
+    updateDragPosition(localOffset);
+    update();
+  }
+
+  void updateDragPosition(Offset offset) {
+    dragPercent = (offset.dx / 300).clamp(0.0, 1.0);
+    flareRateController.updatePercent(dragPercent);
+
+    if (dragPercent >= 0 && dragPercent < .3) {
+      slideState = SlideState.Bad;
+      animationController.forward(from: 0.0);
+    } else if (dragPercent >= .3 && dragPercent < .7) {
+      slideState = SlideState.Ok;
+      animationController.stop();
+    } else if (dragPercent > .7) {
+      slideState = SlideState.Good;
+    }
+    update();
+  }
 
   void setQuizname(String quiz) async {
     await _preferenceRepository.setData('data', quiz);
@@ -66,6 +104,7 @@ class QuizController extends GetxController {
 
   void setEmotion(String value) {
     emotion = value;
+    print(emotion);
     update();
   }
 
@@ -108,11 +147,14 @@ class QuizController extends GetxController {
     _ratingService.createData(quizname, displayname, emotion, clientService,
         teamwork, confidence, innovation, attentionDetails);
 
-    Get.defaultDialog(title: 'Completed',content: Icon(FontAwesomeIcons.check),);
+    Get.defaultDialog(
+      title: 'Completed',
+      content: Icon(FontAwesomeIcons.check),
+    );
     _authService.signOut();
 
     Future.delayed(Duration(milliseconds: 1500), () {
-      Get.off(LoginPage(),curve: Curves.bounceIn);
-    } );
+      Get.off(LoginPage(), curve: Curves.bounceIn);
+    });
   }
 }

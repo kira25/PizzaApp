@@ -28,11 +28,9 @@ dependencies:
   responsive_screen: ^1.0.0
   shared_preferences: ^0.5.12+2
   intro_slider: ^2.3.3
-  connectivity: ^1.0.0
   charts_flutter: ^0.9.0
   flutter_keyboard_visibility: ^3.2.2
   flare_flutter: ^2.0.6
-  shimmer: ^1.1.2
   get: ^3.24.0
   google_fonts: ^1.1.1
   font_awesome_flutter: ^8.10.0
