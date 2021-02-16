@@ -110,9 +110,10 @@ class body extends StatelessWidget {
                 children: [
                   Visibility(
                     child: Expanded(
-
                       child: Padding(
-                        padding: EdgeInsets.only(left: wp(8), top: isKeyboardVisible ? hp(6): hp(10)),
+                        padding: EdgeInsets.only(
+                            left: wp(8),
+                            top: isKeyboardVisible ? hp(6) : hp(10)),
                         child: Text(
                           'Create\nAccount',
                           style: GoogleFonts.lato(
@@ -122,7 +123,7 @@ class body extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    flex: isKeyboardVisible ? 3: 2,
+                    flex: isKeyboardVisible ? 3 : 2,
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: wp(8)),
                       child: Column(
@@ -135,7 +136,7 @@ class body extends StatelessWidget {
                             },
                             isRegister: true,
                             hintText: 'Email',
-                            editingController: _emailctrl,
+                            editingController: controller.emailController,
                             keyboardType: TextInputType.emailAddress,
                             isPassword: false,
                             textInputAction: TextInputAction.done,
@@ -153,7 +154,7 @@ class body extends StatelessWidget {
                             focus: controller.passwordFocus,
                             isRegister: true,
                             hintText: 'Password',
-                            editingController: _passctrl,
+                            editingController: controller.passwordController,
                             keyboardType: TextInputType.visiblePassword,
                             isPassword: true,
                             textInputAction: TextInputAction.done,

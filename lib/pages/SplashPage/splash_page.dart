@@ -19,7 +19,7 @@ class _SplashPageState extends State<SplashPage> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    precacheImage(AssetImage('./assets/examen.png'), context);
+    precacheImage(AssetImage('./assets/splash.png'), context);
   }
 
   @override
@@ -30,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
         child: Container(
             width: MediaQuery.of(context).size.width * 0.6,
             height: MediaQuery.of(context).size.height * 0.8,
-            child: Image.asset('./assets/examen.png')
+            child: Image.asset('./assets/splash.png')
 
             // child: LottieBuilder.network(
             //     'https://assets2.lottiefiles.com/packages/lf20_m29kLt.json'),

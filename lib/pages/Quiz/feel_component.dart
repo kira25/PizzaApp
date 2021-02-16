@@ -33,7 +33,7 @@ class _FeelComponentState extends State<FeelComponent>
   void initState() {
     super.initState();
     print('QuizPage');
-    widget.quizctrl.flareRateController = FlareRateController();
+
     widget.quizctrl.animationController =
         AnimationController(duration: Duration(microseconds: 750), vsync: this)
           ..addListener(() {

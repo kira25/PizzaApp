@@ -197,15 +197,16 @@ class _SignInFormState extends State<SignInForm>
                           focus: controller.emailFocus,
                           onSubmitted: () {
                             FocusScope.of(context).unfocus();
+                            controller.passwordFocus.requestFocus();
                           },
                           editingController: controller.emailController,
                           onChange: (value) => controller.isEmail(value),
                           isPassword: false,
                           hintText: 'Email',
-                          textInputAction: TextInputAction.done,
+                          textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.emailAddress,
                           errorText: controller.email == loginEnum.INVALID
-                              ? 'Bad Email'
+                              ? 'Invalid email'
                               : null,
                           controller: controller,
                         ),
@@ -219,7 +220,7 @@ class _SignInFormState extends State<SignInForm>
                           editingController: controller.passwordController,
                           controller: controller,
                           errorText: controller.password == loginEnum.INVALID
-                              ? 'Bad password'
+                              ? 'At least 5 characters'
                               : null,
                           keyboardType: TextInputType.visiblePassword,
                           textInputAction: TextInputAction.done,

@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:pizza_quiz/pages/Login/login_page.dart';
 import 'package:pizza_quiz/repository/preferences_repository.dart';
 import 'package:pizza_quiz/services/auth/auth_service.dart';
 import 'package:pizza_quiz/services/rating/rating_service.dart';
+import 'package:pizza_quiz/utils/colors_fonts.dart';
+import 'package:pizza_quiz/utils/custom_dialog.dart';
 import 'package:pizza_quiz/utils/flareController.dart';
 
 enum SlideState { Bad, Ok, Good }
@@ -46,7 +49,7 @@ class QuizController extends GetxController {
 
   void onDragUpdate(BuildContext context, DragUpdateDetails details) {
     RenderBox box = context.findRenderObject();
-    Offset localOffset = box.localToGlobal(details.localPosition );
+    Offset localOffset = box.localToGlobal(details.localPosition);
     updateDragPosition(localOffset);
     update();
   }
@@ -87,6 +90,7 @@ class QuizController extends GetxController {
     print('on init quiz controller');
     loadQuizname();
     quizFocus = FocusNode();
+    flareRateController = FlareRateController();
   }
 
   void loadQuizname() async {
@@ -99,7 +103,10 @@ class QuizController extends GetxController {
     confidence = 3.0;
     innovation = 3.0;
     attentionDetails = 3.0;
-    update(["quizname"]);
+    dragPercent = 0.0;
+    flareRateController.updatePercent(0);
+
+    update();
   }
 
   void setEmotion(String value) {
@@ -147,14 +154,16 @@ class QuizController extends GetxController {
     _ratingService.createData(quizname, displayname, emotion, clientService,
         teamwork, confidence, innovation, attentionDetails);
 
-    Get.defaultDialog(
-      title: 'Completed',
-      content: Icon(FontAwesomeIcons.check),
-    );
+
+    Get.dialog(CustomDialog("Have a nice day!"));
     _authService.signOut();
 
     Future.delayed(Duration(milliseconds: 1500), () {
       Get.off(LoginPage(), curve: Curves.bounceIn);
     });
+    dragPercent = 0.0;
+    slideState = SlideState.Bad;
+    flareRateController.updatePercent(0);
+    update();
   }
 }

@@ -22,11 +22,9 @@ class LoginPage extends StatelessWidget {
     final Function wp = Screen(context).wp;
     final Function hp = Screen(context).hp;
 
-
     return Scaffold(
       body: KeyboardVisibilityProvider(
           child: SignInForm(
-
               wp: wp,
               hp: hp,
               quizctrl: qcontroller,

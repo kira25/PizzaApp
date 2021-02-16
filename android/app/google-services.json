@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1048262391656:android:8ffbe948fb7a9f95f588dd",
         "android_client_info": {
-          "package_name": "com.example.hr_huntlng"
+          "package_name": "gutierrez.erick.QuizApp"
         }
       },
       "oauth_client": [
@@ -47,7 +47,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1048262391656:android:d9f63d8ee38209a8f588dd",
         "android_client_info": {
-          "package_name": "com.example.pizza_quiz"
+          "package_name": "gutierrez.erick.QuizApp"
         }
       },
       "oauth_client": [
@@ -55,7 +55,7 @@
           "client_id": "1048262391656-lbhnn3q1hi16i9ov70pmrek9io97robf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.pizza_quiz",
+            "package_name": "gutierrez.erick.QuizApp",
             "certificate_hash": "32627c5bac7a34a2a03fb028ff8ba40f69154e4f"
           }
         },

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pizza_quiz/controllers/quiz_controller.dart';
 import 'package:pizza_quiz/repository/preferences_repository.dart';
 import 'package:pizza_quiz/services/auth/auth_service.dart';
 
@@ -10,18 +11,15 @@ class RegisterController extends GetxController {
   var validEmail = registerEnum.UNDEFINED;
   var validPass = registerEnum.UNDEFINED;
   var isVisible = true;
-
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   FocusNode emailFocus;
   FocusNode passwordFocus;
 
-
-
-
+  final quizctrl = Get.put(QuizController());
 
   AuthService _authService = AuthService();
   PreferenceRepository _preferenceRepository = PreferenceRepository();
-
-
 
   @override
   void onInit() {
@@ -31,7 +29,6 @@ class RegisterController extends GetxController {
     passwordFocus = FocusNode();
   }
 
-
   @override
   void dispose() {
     // TODO: implement dispose
@@ -40,19 +37,26 @@ class RegisterController extends GetxController {
     passwordFocus.dispose();
   }
 
-   handleRegister(String email, String password) async {
-    Get.defaultDialog(
-        title: 'Creando usuario...', content: CircularProgressIndicator());
+  handleRegister(String email, String password) async {
+    if (quizctrl.quizname.isNotEmpty) {
+      Get.defaultDialog(
+          title: 'Creando usuario...', content: CircularProgressIndicator());
 
-    try {
-      final user = await _authService.createAccount(email, password);
-      print(user);
-      return user;
-      Get.back();
-    } catch (e) {
-      Get.back();
-      Get.defaultDialog(title: 'Creation fail', content: Center(child: Text('Account already exist')));
+      try {
+        final user = await _authService.createAccount(email, password);
+        print(user);
+        return user;
+      } catch (e) {
+        Get.back();
+        Get.defaultDialog(
+            title: 'Creation fail',
+            content: Center(child: Text('Account already exist')));
+      }
+    } else {
+      Get.snackbar('Need to set a Quizname', '',
+          snackPosition: SnackPosition.BOTTOM);
     }
+
     update();
   }
 
