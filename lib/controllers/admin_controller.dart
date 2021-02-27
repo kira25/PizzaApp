@@ -1,14 +1,10 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pizza_quiz/models/quiztest.dart';
-import 'package:pizza_quiz/models/rating.dart';
-import 'package:pizza_quiz/repository/preferences_repository.dart';
 import 'package:pizza_quiz/services/rating/rating_service.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
 class AdminController extends GetxController {
-  PreferenceRepository _preferenceRepository = PreferenceRepository();
   String quizname;
   var loading = false;
   var seriesList = List<charts.Series<QuizTest, String>>();

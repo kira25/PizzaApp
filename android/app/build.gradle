@@ -33,8 +33,14 @@ if (keystorePropertiesFile.exists()) {
 }
 
 
-
 android {
+
+
+    bundle {
+        density.enableSplit = true
+        abi.enableSplit = true
+        language.enableSplit = false
+    }
     compileSdkVersion 29
 
     sourceSets {

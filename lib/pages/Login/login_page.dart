@@ -11,9 +11,7 @@ class LoginPage extends StatelessWidget {
 
   final loginctrl = Get.put(LoginController());
 
-  final TextEditingController _passwordController = TextEditingController();
 
-  final TextEditingController _emailController = TextEditingController();
 
   final TextEditingController _quiznameController = TextEditingController();
 
@@ -29,8 +27,7 @@ class LoginPage extends StatelessWidget {
               hp: hp,
               quizctrl: qcontroller,
               quiznameController: _quiznameController,
-              emailController: _emailController,
-              passwordController: _passwordController)),
+             )),
     );
   }
 }

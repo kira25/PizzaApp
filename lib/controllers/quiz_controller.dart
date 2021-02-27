@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:pizza_quiz/pages/Login/login_page.dart';
 import 'package:pizza_quiz/repository/preferences_repository.dart';
 import 'package:pizza_quiz/services/auth/auth_service.dart';
 import 'package:pizza_quiz/services/rating/rating_service.dart';
-import 'package:pizza_quiz/utils/colors_fonts.dart';
 import 'package:pizza_quiz/utils/custom_dialog.dart';
 import 'package:pizza_quiz/utils/flareController.dart';
 
@@ -14,7 +12,7 @@ enum SlideState { Bad, Ok, Good }
 
 class QuizController extends GetxController {
   var quizname = "";
-
+  TextEditingController quiznameController = TextEditingController();
   double dragPercent = 0.0;
   FlareRateController flareRateController;
 

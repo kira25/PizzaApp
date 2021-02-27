@@ -79,7 +79,8 @@ class LoginController extends GetxController {
             ));
       }
     } else {
-      Get.defaultDialog(content: Text('Quizname is empty'));
+      Get.snackbar('Need to set a Quizname', '',
+          snackPosition: SnackPosition.BOTTOM);
     }
 
     update();

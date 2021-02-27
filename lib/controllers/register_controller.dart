@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pizza_quiz/controllers/quiz_controller.dart';
-import 'package:pizza_quiz/repository/preferences_repository.dart';
 import 'package:pizza_quiz/services/auth/auth_service.dart';
 
 enum registerEnum { UNDEFINED, INVALID, VALID }
@@ -19,7 +18,6 @@ class RegisterController extends GetxController {
   final quizctrl = Get.put(QuizController());
 
   AuthService _authService = AuthService();
-  PreferenceRepository _preferenceRepository = PreferenceRepository();
 
   @override
   void onInit() {

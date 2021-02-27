@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pizza_quiz/controllers/login_controller.dart';
 import 'package:pizza_quiz/utils/colors_fonts.dart';
 
 class TextFieldWidget extends StatelessWidget {

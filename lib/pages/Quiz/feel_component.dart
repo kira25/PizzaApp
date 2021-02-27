@@ -7,7 +7,6 @@ import 'package:pizza_quiz/controllers/quiz_controller.dart';
 import 'package:pizza_quiz/pages/Login/login_page.dart';
 import 'package:pizza_quiz/utils/SliderPainter.dart';
 import 'package:pizza_quiz/utils/colors_fonts.dart';
-import 'package:pizza_quiz/utils/flareController.dart';
 import 'package:pizza_quiz/utils/titleFeel.dart';
 import 'dart:math' as math;
 import 'package:vector_math/vector_math_64.dart' as vector;

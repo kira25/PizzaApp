@@ -1,4 +1,3 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,8 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pizza_quiz/controllers/admin_controller.dart';
 import 'package:pizza_quiz/controllers/login_controller.dart';
 import 'package:pizza_quiz/controllers/quiz_controller.dart';
-import 'package:pizza_quiz/models/quiztest.dart';
-import 'package:pizza_quiz/models/rating.dart';
 import 'package:pizza_quiz/pages/Login/login_page.dart';
 import 'package:pizza_quiz/utils/colors_fonts.dart';
 import 'package:responsive_screen/responsive_screen.dart';

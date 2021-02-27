@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pizza_quiz/bindings/admin_binding.dart';
 import 'package:pizza_quiz/bindings/login_binding.dart';

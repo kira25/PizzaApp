@@ -24,7 +24,6 @@ class _RegisterPageState extends State<RegisterPage>
 
   final loginctrl = Get.put(LoginController());
 
-  TextEditingController _namectrl = TextEditingController();
 
   TextEditingController _emailctrl = TextEditingController();
 
@@ -55,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage>
 
     return Scaffold(
       body: KeyboardVisibilityProvider(
-        child: body(
+        child: Body(
             wp: wp,
             hp: hp,
             controller: _controller,
@@ -67,8 +66,8 @@ class _RegisterPageState extends State<RegisterPage>
   }
 }
 
-class body extends StatelessWidget {
-  const body({
+class Body extends StatelessWidget {
+  const Body({
     Key key,
     @required this.wp,
     @required this.hp,
@@ -142,7 +141,7 @@ class body extends StatelessWidget {
                             textInputAction: TextInputAction.done,
                             errorText:
                                 controller.validEmail == registerEnum.INVALID
-                                    ? 'Bad email'
+                                    ? 'Invalid Email'
                                     : null,
                             controller: controller,
                             onChange: (value) => controller.isEmail(value),
@@ -160,7 +159,7 @@ class body extends StatelessWidget {
                             textInputAction: TextInputAction.done,
                             errorText:
                                 controller.validPass == registerEnum.INVALID
-                                    ? 'Bad password'
+                                    ? 'At least 5 characters'
                                     : null,
                             controller: controller,
                             onChange: (value) => controller.isPassword(value),

@@ -5,9 +5,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pizza_quiz/controllers/login_controller.dart';
 import 'package:pizza_quiz/controllers/quiz_controller.dart';
-import 'package:pizza_quiz/pages/ForgotPassword/forgotpassword_page.dart';
 import 'package:pizza_quiz/pages/Intro/intro_page.dart';
-import 'package:pizza_quiz/pages/Register/register_page.dart';
 import 'package:pizza_quiz/utils/colors_fonts.dart';
 import 'package:pizza_quiz/utils/innerShadow.dart';
 import 'package:pizza_quiz/utils/login_background.dart';
@@ -19,22 +17,11 @@ class SignInForm extends StatefulWidget {
       @required this.wp,
       @required this.hp,
       @required TextEditingController quiznameController,
-      @required this.isKeyboardVisible,
-      @required TextEditingController emailController,
-      @required TextEditingController passwordController,
-      this.quizctrl})
-      : _quiznameController = quiznameController,
-        _emailController = emailController,
-        _passwordController = passwordController,
-        super(key: key);
+      this.quizctrl});
 
   final Function wp;
   final Function hp;
-  final TextEditingController _quiznameController;
-  final bool isKeyboardVisible;
   final QuizController quizctrl;
-  final TextEditingController _emailController;
-  final TextEditingController _passwordController;
 
   @override
   _SignInFormState createState() => _SignInFormState();
@@ -130,14 +117,13 @@ class _SignInFormState extends State<SignInForm>
                                                   FocusScope.of(context)
                                                       .unfocus();
                                                 },
-                                                controller:
-                                                    widget._quiznameController,
+                                                controller: controller
+                                                    .quiznameController,
                                                 onEditingComplete: () {
-                                                  print(
-                                                      '${widget._quiznameController.text}');
-                                                  controller.setQuizname(widget
-                                                      ._quiznameController
-                                                      .text);
+                                                  controller.setQuizname(
+                                                      controller
+                                                          .quiznameController
+                                                          .text);
 
                                                   Navigator.pop(context);
                                                 }),
@@ -182,108 +168,104 @@ class _SignInFormState extends State<SignInForm>
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: widget.hp(6),
-                ),
+
                 //FORM LOGIN
                 Expanded(
-                  flex: isKeyboardVisible ? 6 : 4,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: widget.wp(5)),
-                    child: Column(
-                      children: [
-                        TextFieldWidget(
-                          keyTesting: Key("Login Email"),
-                          focus: controller.emailFocus,
-                          onSubmitted: () {
-                            FocusScope.of(context).unfocus();
-                            controller.passwordFocus.requestFocus();
-                          },
-                          editingController: controller.emailController,
-                          onChange: (value) => controller.isEmail(value),
-                          isPassword: false,
-                          hintText: 'Email',
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.emailAddress,
-                          errorText: controller.email == loginEnum.INVALID
-                              ? 'Invalid email'
-                              : null,
-                          controller: controller,
-                        ),
-                        SizedBox(
-                          height: widget.hp(3),
-                        ),
-                        TextFieldWidget(
-                          keyTesting: Key("Login Password"),
-                          focus: controller.passwordFocus,
-                          onSubmitted: () => controller.passwordFocus.unfocus(),
-                          editingController: controller.passwordController,
-                          controller: controller,
-                          errorText: controller.password == loginEnum.INVALID
-                              ? 'At least 5 characters'
-                              : null,
-                          keyboardType: TextInputType.visiblePassword,
-                          textInputAction: TextInputAction.done,
-                          hintText: 'Password',
-                          isPassword: true,
-                          onChange: (value) => controller.isPassword(value),
-                        ),
-                        SizedBox(
-                          height: widget.hp(3),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Sign in',
-                              style: GoogleFonts.lato(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: widget.wp(8),
-                                  color: kdarkprimarycolor),
+                  flex: isKeyboardVisible ? 5 : 4,
+                  child: ListView(
+                    physics: BouncingScrollPhysics(),
+                    padding: isKeyboardVisible
+                        ? EdgeInsets.symmetric(horizontal: widget.wp(5))
+                        : EdgeInsets.symmetric(
+                            horizontal: widget.wp(5), vertical: widget.hp(3)),
+                    children: [
+                      TextFieldWidget(
+                        keyTesting: Key("Login Email"),
+                        focus: controller.emailFocus,
+                        onSubmitted: () {
+                          FocusScope.of(context).unfocus();
+                          controller.passwordFocus.requestFocus();
+                        },
+                        editingController: controller.emailController,
+                        onChange: (value) => controller.isEmail(value),
+                        isPassword: false,
+                        hintText: 'Email',
+                        textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.emailAddress,
+                        errorText: controller.email == loginEnum.INVALID
+                            ? 'Invalid Email'
+                            : null,
+                        controller: controller,
+                      ),
+                      SizedBox(
+                        height: widget.hp(3),
+                      ),
+                      TextFieldWidget(
+                        keyTesting: Key("Login Password"),
+                        focus: controller.passwordFocus,
+                        onSubmitted: () => controller.passwordFocus.unfocus(),
+                        editingController: controller.passwordController,
+                        controller: controller,
+                        errorText: controller.password == loginEnum.INVALID
+                            ? 'At least 5 characters'
+                            : null,
+                        keyboardType: TextInputType.visiblePassword,
+                        textInputAction: TextInputAction.done,
+                        hintText: 'Password',
+                        isPassword: true,
+                        onChange: (value) => controller.isPassword(value),
+                      ),
+                      SizedBox(
+                        height: widget.hp(4),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Sign in',
+                            style: GoogleFonts.lato(
+                                fontWeight: FontWeight.bold,
+                                fontSize: widget.wp(8),
+                                color: kdarkprimarycolor),
+                          ),
+                          GestureDetector(
+                            onTap: controller.email == loginEnum.VALID &&
+                                    controller.password == loginEnum.VALID
+                                ? () async {
+                                    await controller.handleLogin(
+                                        controller.emailController.text,
+                                        controller.passwordController.text);
+                                  }
+                                : null,
+                            child: InnerShadow(
+                              color: Colors.black.withOpacity(0.5),
+                              offset: const Offset(5, 5),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: kdarklogincolor,
+                                ),
+                                child: CircleAvatar(
+                                  backgroundColor: kdarklogincolor,
+                                  radius: 35,
+                                  child: Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
                             ),
-                            controller.loadinguser == true
-                                ? CircularProgressIndicator()
-                                : GestureDetector(
-                                    onTap: controller.email ==
-                                                loginEnum.VALID &&
-                                            controller.password ==
-                                                loginEnum.VALID
-                                        ? () async {
-                                            print(widget._emailController.text);
-                                            await controller.handleLogin(
-                                                controller.emailController.text,
-                                                controller
-                                                    .passwordController.text);
-                                          }
-                                        : null,
-                                    child: InnerShadow(
-                                      color: Colors.black.withOpacity(0.5),
-                                      offset: const Offset(5, 5),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: kdarklogincolor,
-                                        ),
-                                        child: CircleAvatar(
-                                          backgroundColor: kdarklogincolor,
-                                          radius: 35,
-                                          child: Icon(
-                                            Icons.arrow_forward_ios,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                          ],
-                        ),
-                        SizedBox(
-                          height: widget.hp(4),
-                        ),
-                        RaisedButton(
-                          onPressed: widget.quizctrl.quizname != ""
-                              ? () async => await controller.signInAnonymously()
-                              : null,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: widget.hp(4),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: widget.wp(6)),
+                        child: RaisedButton(
+                          onPressed: () async =>
+                              await controller.signInAnonymously(),
                           shape: StadiumBorder(),
                           elevation: 3,
                           color: kdarklogincolor,
@@ -292,40 +274,40 @@ class _SignInFormState extends State<SignInForm>
                             style: GoogleFonts.lato(color: kwhitecolor),
                           ),
                         ),
-                        SizedBox(
-                          height: widget.hp(4),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: () => controller.goToRegister(),
+                      ),
+                      SizedBox(
+                        height: widget.hp(4),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          GestureDetector(
+                            onTap: () => controller.goToRegister(),
+                            child: Text(
+                              'Sign up',
+                              style: GoogleFonts.lato(
+                                  decoration: TextDecoration.underline,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: widget.wp(5)),
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () => controller.gotoForgotPassword(),
+                            child: Hero(
+                              tag: 'ForgotPassword',
+                              transitionOnUserGestures: true,
                               child: Text(
-                                'Sign up',
+                                "Forgot Password?",
                                 style: GoogleFonts.lato(
                                     decoration: TextDecoration.underline,
                                     fontWeight: FontWeight.bold,
                                     fontSize: widget.wp(5)),
                               ),
                             ),
-                            GestureDetector(
-                              onTap: () => controller.gotoForgotPassword(),
-                              child: Hero(
-                                tag: 'ForgotPassword',
-                                transitionOnUserGestures: true,
-                                child: Text(
-                                  "Forgot Password?",
-                                  style: GoogleFonts.lato(
-                                      decoration: TextDecoration.underline,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: widget.wp(5)),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -333,295 +315,6 @@ class _SignInFormState extends State<SignInForm>
           ),
         ],
       );
-      /*return Stack(
-        children: [
-          SizedBox.expand(
-            child: CustomPaint(
-              painter: LoginBackGround(isKeyboardVisible,
-                  animation: _controller.view),
-            ),
-          ),
-          SafeArea(
-            child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              child: Container(
-                height: MediaQuery.of(context).size.height,
-                padding: EdgeInsets.symmetric(
-                  horizontal: widget.wp(4),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Wrap(
-                            spacing: widget.wp(2),
-                            direction: Axis.vertical,
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: kbluelogincolor,
-                                child: IconButton(
-                                    iconSize: widget.wp(4),
-                                    icon: Icon(
-                                      FontAwesomeIcons.info,
-                                      color: kwhitecolor,
-                                    ),
-                                    onPressed: () => Get.to(IntroPage(),
-                                        transition: Transition.fadeIn)),
-                              ),
-                              CircleAvatar(
-                                backgroundColor: kbluelogincolor,
-                                child: IconButton(
-                                    color: kwhitecolor,
-                                    icon: Icon(
-                                      Icons.menu,
-                                      color: kwhitecolor,
-                                    ),
-                                    onPressed: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (_) {
-                                          return GetBuilder<QuizController>(
-                                              builder: (controller) {
-                                            return SingleChildScrollView(
-                                              padding: EdgeInsets.only(
-                                                  top: widget.hp(10)),
-                                              child: AlertDialog(
-                                                title: Text(
-                                                    'Please insert your Quiz name'),
-                                                content: TextField(
-                                                    focusNode:
-                                                        controller.quizFocus,
-                                                    onSubmitted: (value) {
-                                                      FocusScope.of(context)
-                                                          .unfocus();
-                                                    },
-                                                    controller: widget
-                                                        ._quiznameController,
-                                                    onEditingComplete: () {
-                                                      print(
-                                                          '${widget._quiznameController.text}');
-                                                      controller.setQuizname(
-                                                          widget
-                                                              ._quiznameController
-                                                              .text);
-
-                                                      Navigator.pop(context);
-                                                    }),
-                                              ),
-                                            );
-                                          });
-                                        },
-                                      );
-                                    }),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                bottom: widget.hp(8), right: widget.wp(8)),
-                            child: GetBuilder<QuizController>(
-                                init: QuizController(),
-                                id: "quizname",
-                                builder: (controller) {
-                                  return Text(
-                                    'Quiz : ${controller.quizname}',
-                                    style: GoogleFonts.lato(
-                                        color: kwhitecolor,
-                                        fontSize: widget.wp(4.5)),
-                                  );
-                                }),
-                          )
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Visibility(
-                        visible: !isKeyboardVisible,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: widget.wp(15)),
-                          child: Text(
-                            'Quiz of\nfeeling',
-                            style: GoogleFonts.lato(
-                                fontSize: widget.wp(10), color: kwhitecolor),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: widget.hp(5),
-                    ),
-                    //FORM LOGIN
-                    Expanded(
-                      flex: 4,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: widget.wp(5)),
-                        child: Column(
-                          children: [
-                            TextFieldWidget(
-                              keyTesting: Key("Login Email"),
-                              focus: controller.emailFocus,
-                              onSubmitted: (value) {
-                                FocusScope.of(context).unfocus();
-                                FocusScope.of(context)
-                                    .requestFocus(controller.passwordFocus);
-                              },
-                              editingController: widget._emailController,
-                              onChange: (value) => controller.isEmail(value),
-                              isPassword: false,
-                              hintText: 'Email',
-                              textInputAction: TextInputAction.next,
-                              keyboardType: TextInputType.text,
-                              errorText: controller.email == loginEnum.INVALID
-                                  ? 'Bad Email'
-                                  : null,
-                              controller: controller,
-                            ),
-                            SizedBox(
-                              height: widget.hp(3),
-                            ),
-                            TextFieldWidget(
-                              keyTesting: Key("Login Password"),
-                              focus: controller.passwordFocus,
-                              editingController: widget._passwordController,
-                              controller: controller,
-                              errorText:
-                                  controller.password == loginEnum.INVALID
-                                      ? 'Bad password'
-                                      : null,
-                              keyboardType: TextInputType.visiblePassword,
-                              textInputAction: TextInputAction.done,
-                              hintText: 'Password',
-                              isPassword: true,
-                              onChange: (value) => controller.isPassword(value),
-                            ),
-                            SizedBox(
-                              height: widget.hp(3),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Sign in',
-                                  style: GoogleFonts.lato(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: widget.wp(8),
-                                      color: kdarkprimarycolor),
-                                ),
-                                controller.loadinguser == true
-                                    ? CircularProgressIndicator()
-                                    : GestureDetector(
-                                        onTap: controller.email ==
-                                                    loginEnum.VALID &&
-                                                controller.password ==
-                                                    loginEnum.VALID
-                                            ? () async {
-                                                print(widget
-                                                    ._emailController.text);
-                                                await controller.handleLogin(
-                                                    widget
-                                                        ._emailController.text,
-                                                    widget._passwordController
-                                                        .text);
-                                              }
-                                            : null,
-                                        child: InnerShadow(
-                                          offset: const Offset(5, 5),
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: kdarklogincolor,
-                                            ),
-                                            child: CircleAvatar(
-                                              backgroundColor: kdarklogincolor,
-                                              radius: 35,
-                                              child: Icon(
-                                                Icons.arrow_forward_ios,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                              ],
-                            ),
-                            SizedBox(
-                              height: widget.hp(4),
-                            ),
-                            RaisedButton(
-                              onPressed: widget.quizctrl.quizname != ""
-                                  ? () async =>
-                                      await controller.signInAnonymously()
-                                  : null,
-                              shape: StadiumBorder(),
-                              elevation: 3,
-                              color: kdarklogincolor,
-                              child: Text(
-                                'Sign in Anonymously',
-                                style: GoogleFonts.lato(color: kwhitecolor),
-                              ),
-                            ),
-                            SizedBox(
-                              height: widget.hp(4),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                GestureDetector(
-                                  onTap: () {
-                                    widget._emailController.clear();
-                                    widget._passwordController.clear();
-                                    Get.off(RegisterPage(),
-                                        curve: Curves.easeIn,
-                                        transition: Transition.fadeIn,
-                                        duration: Duration(milliseconds: 500));
-                                  },
-                                  child: Text(
-                                    'Sign up',
-                                    style: GoogleFonts.lato(
-                                        decoration: TextDecoration.underline,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: widget.wp(5)),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    widget._emailController.clear();
-                                    widget._passwordController.clear();
-                                    Get.off(ForgotPasswordPage(),
-                                        curve: Curves.easeIn,
-                                        transition: Transition.fadeIn,
-                                        duration: Duration(milliseconds: 500));
-                                  },
-                                  child: Hero(
-                                    tag: 'ForgotPassword',
-                                    transitionOnUserGestures: true,
-                                    child: Text(
-                                      "Forgot Password?",
-                                      style: GoogleFonts.lato(
-                                          decoration: TextDecoration.underline,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: widget.wp(5)),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )
-        ],
-      );*/
     });
   }
 }

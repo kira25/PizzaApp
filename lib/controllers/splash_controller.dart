@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pizza_quiz/pages/Admin/admin_page.dart';
 import 'package:pizza_quiz/pages/Intro/intro_page.dart';
